@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="renderer" content="webkit" charset="utf-8">
+	<meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
+	<meta content=always name=referrer>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="assets/css/base.css">
+	<script type="text/javascript" src="assets/js/vendor.js"></script>
+</head>
+<body>
+	
+	<table border="0" height="310px" width="670px" class="dailIndex-container">
+		<tbody>
+			<tr>
+				<td class="dail-unit" dail-id=0>
+					<p class="info">魔兽世界战网卡</p>
+				</td>
+				<td class="dail-unit" dail-id=1>谢谢参与</td>
+				<td class="dail-unit" dail-id=2>谢谢参与</td>
+				<td class="dail-unit" dail-id=3>
+					<p class="info">英雄联盟皮肤</p>
+				</td>
+			</tr>
+			<tr>
+				<td class="dail-unit" dail-id=9>谢谢参与</td>
+				<td colspan="2" class="dail-button">
+					<a href="javascript:;" id="lottery">
+						<p class="main j_main">我要抽奖</p>
+					</a>
+				</td>
+				<td class="dail-unit" dail-id=4>谢谢参与</td>
+			</tr>
+			<tr>
+				<td class="dail-unit" dail-id=8>谢谢参与</td>
+				<td class="dail-unit" dail-id=7>谢谢参与</td>
+				<td class="dail-unit" dail-id=6>
+					<p class="info">英雄联盟皮肤</p>
+				</td>
+				<td class="dail-unit" dail-id=5>谢谢参与</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<script type="text/javascript" src="assets/js/page/dialIndex.js"></script>
+	<script type="text/javascript">
+		;(function() {
+			var dd = new DialIndex(".dailIndex-container", {
+				originIndex: -1,		//当前转动的位置，起点
+				speed: 10,				//初始转动速度，单位ms
+				cycle: 20,				//转动基本次数，即完成基本次数后才能进入抽奖环节
+				dailUnit: ".dail-unit",	//每一份转盘单元
+				onRotateEnd: function(index) {	//转动结束回调，参数为停止位置的dail-id
+					console.log("当前的下标为：" + index);
+				}
+			});
+			
+			$('.dail-button').click(function(event) {
+                //开始转动,参数为需要停止的位置或者使用dd.stop(index)标示停止的位置
+				dd.start("111aaa");
+			});
+		})();
+	</script>
+</body>
+</html>

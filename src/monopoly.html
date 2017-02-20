@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="renderer" content="webkit" charset="utf-8">
+	<meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
+	<meta content=always name=referrer>
+	<title></title>
+	<style type="text/css">
+		.map-container {
+			margin: 10px;
+			margin-left: 100px;
+		}
+		.map-role {
+			top: 0px; 
+			left: -80px;
+			width: 50px;
+			height: 50px;
+			border: 1px solid #ccc;
+			background: #f00;
+			transition: all 0.03s linear;
+		}
+		.map-dice {
+			position: absolute;
+			top: 100px;
+			left: -80px;
+			width: 100px;
+			height: 100px;
+		}
+		.map-repeat {
+			position: absolute;
+			width: 50px; 
+			height: 50px; 
+			border: 1px solid rgb(204, 204, 204);
+		}
+		.map-button,
+		.reset-button {
+			position: relative;
+			z-index: 100;
+			margin: 200px 0 0 -60px;
+		}
+		.reset-button {
+			top: 50px;
+		}
+	</style>
+	<script type="text/javascript" src="assets/js/vendor.js"></script>
+</head>
+<body>
+	<div class="map-container">
+		<div class="map-role" map-id="0" style=""></div>
+		<div class="map-wrapper">
+			<div map-id="1" class="map-repeat" style="top: 0px; left: 0px; "></div>
+			<div map-id="2" class="map-repeat" style="top: 0px; left: 60px; "></div>
+			<div map-id="3" class="map-repeat" style="top: 60px; left: 60px; "></div>
+			<div map-id="4" class="map-repeat" style="top: 120px; left: 60px; "></div>
+			<div map-id="5" class="map-repeat" style="top: 120px; left: 120px; "></div>
+			<div map-id="8" class="map-repeat" style="top: 0px; left: 180px; "></div>
+			<div map-id="7" class="map-repeat" style="top: 60px; left: 180px; "></div>
+			<div map-id="6" class="map-repeat" style="top: 120px; left: 180px; "></div>
+			<div map-id="9" class="map-repeat" style="top: 0px; left: 240px; "></div>
+			<div map-id="10" class="map-repeat" style="top: 0px; left: 300px; "></div>
+			<div map-id="11" class="map-repeat" style="top: 60px; left: 300px; "></div>
+			<div map-id="12" class="map-repeat" style="top: 120px; left: 300px; "></div>
+			<div map-id="13" class="map-repeat" style="top: 180px; left: 300px; "></div>
+			<div map-id="14" class="map-repeat" style="top: 240px; left: 300px; "></div>
+			<div map-id="15" class="map-repeat" style="top: 240px; left: 360px; "></div>
+			<div map-id="16" class="map-repeat" style="top: 240px; left: 420px; "></div>
+		</div>
+		<div class="map-dice" style="background-image: url(assets/images/map-dice.png);"></div>
+		<button class="map-button">掷骰子</button>
+		<button class="reset-button">重置</button>
+	</div>
+	<script type="text/javascript" src="assets/js/page/ShootDice.js"></script>
+	<script type="text/javascript">
+		/*转动次数为5次的调用实例*/
+		var times = 5;
+		var sd = new ShootDice(".map-container", {
+			speed: 500,						//主角移动每一个所需的时间，默认为800ms
+			diceTime: 1000,					//骰子转动时间，默认为1000ms
+			roleOffsetX: 0,					//X轴偏移量，默认为0
+			roleOffsetY: 0,					//y轴偏移量，默认为0
+			mapWrapperClass: ".map-wrapper",//地图容器
+			mapRoleClass: ".map-role",		//待移动的主角
+			mapDiceImgClass: ".map-dice-img",	//骰子图片（只能为img节点）
+			mapStartBtnClass: ".map-button",	//游戏开始按钮，即启动骰子转动按钮
+			mapEachSauare: ".map-repeat",		//组成地图的每一块
+			onGameInit: function() {
+				console.log("Game Start!");
+			},
+			onClickBtnStart: function() {
+				console.log("Click Start!");
+				sd.diceNum = Math.ceil(Math.random()*6);
+			},
+			onClickBtnEnd: function(val) {		//当前骰子数
+				console.log("Click the btn!nums:" + val);
+				times--;
+			},
+			onRoleMoveEnd: function(val) {		//当前骰子数
+				console.log("Role Move End!nums:" + val);
+				if (times<=0) {
+					console.log("无法转动了，因为没有次数了");
+					sd.canClickStartBtn = false;
+				}
+
+				var eleMapId = parseInt($(".map-role").attr('map-id'));
+
+				if (eleMapId == 5 || eleMapId == 9 || eleMapId == 11 || eleMapId == 6 || eleMapId == 15) {
+					
+					var toPos = eleMapId - 4;
+
+					console.log("要后退了", eleMapId, toPos);
+
+					sd.setRolePosition(toPos)
+				}
+			},
+			onMapEnd: function() {			//当前骰子数
+				console.log("Game Over!");
+			}
+		});
+
+		$(".reset-button").click(function(event) {
+			sd.resetGame();
+			times = 5;
+		});
+	</script>
+</body>
+</html>

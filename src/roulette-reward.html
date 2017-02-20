@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="renderer" content="webkit" charset="utf-8">
+	<meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
+	<meta content=always name=referrer>
+	<title></title>
+	<style type="text/css">
+		.dial-container {
+			width: 532px;
+			height: 533px;
+			position: relative;
+		}
+		.dial-start {
+			outline: none;
+		    border: none;
+		    width: 244px;
+		    height: 256px;
+		    position: absolute;
+			top: 150px;
+			left: 143px;
+		    cursor: pointer;
+		    z-index: 1;
+			background-color: transparent;
+		}
+		.dial-wrapper {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+	<script type="text/javascript" src="assets/js/vendor.js"></script>
+</head>
+<body>
+	<div class="dial-container">
+		<img src="assets/images/prz_turn.png" class="dial-wrapper"/>
+		<button class="dial-start" style="background-image: url(assets/images/content_btn.png)"></button>
+	</div>
+	<script type="text/javascript" src="assets/js/page/turnTable.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var rotate = new Rotate('.dial-wrapper', { //初始化，参数1为待转动的盘
+                divided: 8,                 //转盘分区(required),默认为8
+                duration: 1000,             //旋转时间（单位ms），默认为1000
+                timeFunction: "ease-out",   //运行速度函数，默认为ease-out
+                delay: 0,                   //动画执行的延迟，默认为0
+                baseAngle: 360*2,          //基础角度，默认为360*2
+                offsetAngle: 10,            //角度偏移.默认为10
+                onRotateEnd: getPrize //回调函数
+		  	});
+			$(".dial-start").click(function() {
+				rotate.run(Math.ceil(Math.random()*8));//运行函数
+			});
+
+			function getPrize(sector) {
+			    console.log("扇区=" + sector);
+				switch(sector) {
+					case 8:
+					    console.log("50Q币");
+						break;
+                    case 6:
+                        console.log("10Q币");
+                        break;
+                    case 5:
+                        console.log("眼罩");
+                        break;
+                    case 4:
+                        console.log("冰箱贴");
+                        break;
+                    case 2:
+                        console.log("100Q币");
+                        break;
+                    case 1:
+                        console.log("T-Shirt");
+                        break;
+					default:
+					    console.log("谢谢参与");
+					    break;
+				}
+            }
+		  
+		});
+	</script>
+</body>
+</html>
